@@ -20,7 +20,7 @@ body {
 #progress-bar {
     height: 100%;
     width: 0%;
-    background: lime;
+    background: blueviolet;
     transition: width 0.5s;
 }
 
@@ -42,7 +42,7 @@ body {
 button {
     font-size: 20px;
     padding: 15px 30px;
-    background: lime;
+    background: darkred;
     border: none;
     cursor: pointer;
 }

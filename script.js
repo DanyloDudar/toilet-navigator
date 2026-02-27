@@ -37,6 +37,11 @@ function startNavigation() {
             userLat = position.coords.latitude;
             userLng = position.coords.longitude;
 
+            // HIGH-ACCURACY GPS heading when available
+            if (position.coords.heading !== null && !isNaN(position.coords.heading)) {
+                heading = position.coords.heading;
+            }
+
             updateNavigation();
 
         },
@@ -75,13 +80,43 @@ function startNavigation() {
     // Compass support
     if (window.DeviceOrientationEvent) {
 
-        window.addEventListener("deviceorientationabsolute", event => {
+        window.addEventListener("deviceorientationabsolute", handleOrientation, true);
+        window.addEventListener("deviceorientation", handleOrientation, true);
 
-            if (event.alpha !== null) {
-                heading = event.alpha;
-            }
+    }
 
-        }, true);
+    function handleOrientation(event) {
+
+        let compassHeading;
+
+        // iPhone
+        if (event.webkitCompassHeading !== undefined) {
+
+            compassHeading = event.webkitCompassHeading;
+
+        }
+
+        // Android
+        else if (event.absolute === true && event.alpha !== null) {
+
+            compassHeading = 360 - event.alpha;
+
+        }
+
+        // fallback
+        else if (event.alpha !== null) {
+
+            compassHeading = 360 - event.alpha;
+
+        }
+
+        if (compassHeading !== undefined) {
+
+            heading = compassHeading;
+
+            updateNavigation(); // VERY IMPORTANT
+
+        }
 
     }
 
@@ -109,7 +144,10 @@ function updateNavigation() {
         checkpoint.lng
     );
 
-    const rotation = bearing - heading;
+    let rotation = bearing - heading;
+
+    // normalize to -180 to 180 (prevents spinning)
+    rotation = ((rotation + 540) % 360) - 180;
 
     arrow.style.transform = `rotate(${rotation}deg)`;
 
