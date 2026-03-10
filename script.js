@@ -1,21 +1,44 @@
 const checkpoints = [
-    { lat: 50.091757, lng: 14.403842, name: "Exit Cafe" },
-    { lat: 50.091780, lng: 14.403941, name: "Top of Stairs" },
-    { lat: 50.091651, lng: 14.404013, name: "Bottom of Stairs" },
-    { lat: 50.091737, lng: 14.404417, name: "Gate" },
-    { lat: 50.091940, lng: 14.404397, name: "Toilet" }
+    {
+        lat: 50.091757,
+        lng: 14.403842,
+        name: "Exit the cafe",
+        img: null
+    },
+    {
+        lat: 50.091780,
+        lng: 14.403941,
+        name: "Go to the top of the stairs",
+        img: "img/top-stairs.jpg"
+    },
+    {
+        lat: 50.091651,
+        lng: 14.404013,
+        name: "Go down the stairs",
+        img: "img/bottom-stairs.jpg"
+    },
+    {
+        lat: 50.091737,
+        lng: 14.404417,
+        name: "Walk to the gate",
+        img: "img/gate.jpg"
+    },
+    {
+        lat: 50.091940,
+        lng: 14.404397,
+        name: "Toilet",
+        img: "img/toilet.jpg"
+    }
 ];
 
 let currentCheckpoint = 0;
 let userLat = null;
 let userLng = null;
-let heading = 0;
-let gpsStarted = false;
 
-const arrow = document.getElementById("arrow");
 const stepName = document.getElementById("step-name");
 const distanceText = document.getElementById("distance");
 const progressBar = document.getElementById("progress-bar");
+const photo = document.getElementById("nav-photo");
 
 document.getElementById("startBtn").onclick = startNavigation;
 
@@ -32,15 +55,8 @@ function startNavigation() {
 
         position => {
 
-            gpsStarted = true;
-
             userLat = position.coords.latitude;
             userLng = position.coords.longitude;
-
-            // HIGH-ACCURACY GPS heading when available
-            if (position.coords.heading !== null && !isNaN(position.coords.heading)) {
-                heading = position.coords.heading;
-            }
 
             updateNavigation();
 
@@ -48,26 +64,8 @@ function startNavigation() {
 
         error => {
 
-            let message = "";
+            alert("GPS error: " + error.message);
 
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    message = "GPS permission denied. Please allow location.";
-                    break;
-
-                case error.POSITION_UNAVAILABLE:
-                    message = "GPS unavailable. Try outside.";
-                    break;
-
-                case error.TIMEOUT:
-                    message = "GPS timeout. Try again.";
-                    break;
-
-                default:
-                    message = "Unknown GPS error.";
-            }
-
-            alert(message);
         },
 
         {
@@ -75,56 +73,12 @@ function startNavigation() {
             timeout: 15000,
             maximumAge: 0
         }
+
     );
-
-    // Compass support
-    if (window.DeviceOrientationEvent) {
-
-        window.addEventListener("deviceorientationabsolute", handleOrientation, true);
-        window.addEventListener("deviceorientation", handleOrientation, true);
-
-    }
-
-    function handleOrientation(event) {
-
-        let compassHeading;
-
-        // iPhone
-        if (event.webkitCompassHeading !== undefined) {
-
-            compassHeading = event.webkitCompassHeading;
-
-        }
-
-        // Android
-        else if (event.absolute === true && event.alpha !== null) {
-
-            compassHeading = 360 - event.alpha;
-
-        }
-
-        // fallback
-        else if (event.alpha !== null) {
-
-            compassHeading = 360 - event.alpha;
-
-        }
-
-        if (compassHeading !== undefined) {
-
-            heading = compassHeading;
-
-            updateNavigation(); // VERY IMPORTANT
-
-        }
-
-    }
 
 }
 
 function updateNavigation() {
-
-    if (!gpsStarted) return;
 
     const checkpoint = checkpoints[currentCheckpoint];
 
@@ -137,19 +91,7 @@ function updateNavigation() {
 
     distanceText.innerHTML = "Distance: " + Math.round(distance) + " m";
 
-    const bearing = getBearing(
-        userLat,
-        userLng,
-        checkpoint.lat,
-        checkpoint.lng
-    );
-
-    let rotation = bearing - heading;
-
-    // normalize to -180 to 180 (prevents spinning)
-    rotation = ((rotation + 540) % 360) - 180;
-
-    arrow.style.transform = `rotate(${rotation}deg)`;
+    showCheckpoint();
 
     if (distance < 6) {
 
@@ -160,12 +102,37 @@ function updateNavigation() {
 
         if (currentCheckpoint >= checkpoints.length) {
 
-            stepName.innerHTML = "Arrived!";
-            arrow.style.display = "none";
+            stepName.innerHTML = "You arrived 🎉";
+            distanceText.innerHTML = "";
+            photo.style.display = "none";
             return;
+
         }
 
-        stepName.innerHTML = checkpoints[currentCheckpoint].name;
+        showCheckpoint();
+
+    }
+
+}
+
+function showCheckpoint() {
+
+    const checkpoint = checkpoints[currentCheckpoint];
+
+    stepName.innerHTML =
+        "Step " + (currentCheckpoint + 1) +
+        " / " + checkpoints.length +
+        "<br>" + checkpoint.name;
+
+    if (checkpoint.img) {
+
+        photo.src = checkpoint.img;
+        photo.style.display = "block";
+
+    } else {
+
+        photo.style.display = "none";
+
     }
 
 }
@@ -187,22 +154,5 @@ function getDistance(lat1, lon1, lat2, lon2) {
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
     return R * c;
-}
 
-function getBearing(lat1, lon1, lat2, lon2) {
-
-    const dLon = (lon2-lon1) * Math.PI/180;
-
-    const y = Math.sin(dLon) * Math.cos(lat2*Math.PI/180);
-
-    const x =
-        Math.cos(lat1*Math.PI/180) *
-        Math.sin(lat2*Math.PI/180) -
-        Math.sin(lat1*Math.PI/180) *
-        Math.cos(lat2*Math.PI/180) *
-        Math.cos(dLon);
-
-    const bearing = Math.atan2(y, x);
-
-    return (bearing * 180/Math.PI + 360) % 360;
 }
