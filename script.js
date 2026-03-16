@@ -1,158 +1,100 @@
-const checkpoints = [
-    {
-        lat: 50.091757,
-        lng: 14.403842,
-        name: "Exit the cafe",
-        img: null
+const languages = {
+
+    en: {
+        start: "Go outside the cafe and click NEXT",
+        next: "Next →",
+        prev: "← Previous",
+        finish: "🎉 Congrats! Enjoy!"
     },
-    {
-        lat: 50.091780,
-        lng: 14.403941,
-        name: "Go to the top of the stairs",
-        img: "img/top-stairs.jpg"
+
+    cz: {
+        start: "Vyjděte z kavárny a klikněte na DALŠÍ",
+        next: "Další →",
+        prev: "← Zpět",
+        finish: "🎉 Gratulujeme!"
     },
-    {
-        lat: 50.091651,
-        lng: 14.404013,
-        name: "Go down the stairs",
-        img: "img/bottom-stairs.jpg"
+
+    de: {
+        start: "Gehen Sie aus dem Café und klicken Sie auf WEITER",
+        next: "Weiter →",
+        prev: "← Zurück",
+        finish: "🎉 Viel Spaß!"
     },
-    {
-        lat: 50.091737,
-        lng: 14.404417,
-        name: "Walk to the gate",
-        img: "img/gate.jpg"
+
+    it: {
+        start: "Esci dal caffè e premi AVANTI",
+        next: "Avanti →",
+        prev: "← Indietro",
+        finish: "🎉 Buon divertimento!"
     },
-    {
-        lat: 50.091940,
-        lng: 14.404397,
-        name: "Toilet",
-        img: "img/toilet.jpg"
+
+    es: {
+        start: "Salga del café y presione SIGUIENTE",
+        next: "Siguiente →",
+        prev: "← Atrás",
+        finish: "🎉 Disfruta!"
+    },
+
+    fr: {
+        start: "Sortez du café et cliquez sur SUIVANT",
+        next: "Suivant →",
+        prev: "← Retour",
+        finish: "🎉 Profitez!"
+    },
+
+    ua: {
+        start: "Вийдіть з кафе та натисніть ДАЛІ",
+        next: "Далі →",
+        prev: "← Назад",
+        finish: "🎉 Гарного дня!"
     }
+
+};
+
+let currentLang = "en";
+let step = -1;
+
+const photos = [
+    "img/top-stairs.jpg",
+    "img/bottom-stairs.jpg",
+    "img/gate.jpg",
+    "img/toilet.jpg"
 ];
 
-let currentCheckpoint = 0;
-let userLat = null;
-let userLng = null;
+function chooseLanguage(lang) {
 
-const stepName = document.getElementById("step-name");
-const distanceText = document.getElementById("distance");
-const progressBar = document.getElementById("progress-bar");
-const photo = document.getElementById("nav-photo");
+    currentLang = lang;
 
-document.getElementById("startBtn").onclick = startNavigation;
+    document.getElementById("language-screen").style.display = "none";
+    document.getElementById("nav-screen").style.display = "block";
 
-function startNavigation() {
+    document.getElementById("step-text").innerHTML = languages[lang].start;
 
-    if (!navigator.geolocation) {
-        alert("GPS not supported on this device");
+}
+
+function nextStep() {
+
+    step++;
+
+    if(step >= photos.length){
+
+        document.getElementById("step-text").innerHTML =
+            languages[currentLang].finish;
+
+        document.getElementById("photo").style.display = "none";
         return;
     }
 
-    stepName.innerHTML = "Starting GPS...";
-
-    navigator.geolocation.watchPosition(
-
-        position => {
-
-            userLat = position.coords.latitude;
-            userLng = position.coords.longitude;
-
-            updateNavigation();
-
-        },
-
-        error => {
-
-            alert("GPS error: " + error.message);
-
-        },
-
-        {
-            enableHighAccuracy: true,
-            timeout: 15000,
-            maximumAge: 0
-        }
-
-    );
+    document.getElementById("photo").src = photos[step];
+    document.getElementById("photo").style.display = "block";
 
 }
 
-function updateNavigation() {
+function prevStep(){
 
-    const checkpoint = checkpoints[currentCheckpoint];
-
-    const distance = getDistance(
-        userLat,
-        userLng,
-        checkpoint.lat,
-        checkpoint.lng
-    );
-
-    distanceText.innerHTML = "Distance: " + Math.round(distance) + " m";
-
-    showCheckpoint();
-
-    if (distance < 6) {
-
-        currentCheckpoint++;
-
-        progressBar.style.width =
-            (currentCheckpoint / checkpoints.length) * 100 + "%";
-
-        if (currentCheckpoint >= checkpoints.length) {
-
-            stepName.innerHTML = "You arrived 🎉";
-            distanceText.innerHTML = "";
-            photo.style.display = "none";
-            return;
-
-        }
-
-        showCheckpoint();
-
+    if(step > 0){
+        step--;
+        document.getElementById("photo").src = photos[step];
     }
-
-}
-
-function showCheckpoint() {
-
-    const checkpoint = checkpoints[currentCheckpoint];
-
-    stepName.innerHTML =
-        "Step " + (currentCheckpoint + 1) +
-        " / " + checkpoints.length +
-        "<br>" + checkpoint.name;
-
-    if (checkpoint.img) {
-
-        photo.src = checkpoint.img;
-        photo.style.display = "block";
-
-    } else {
-
-        photo.style.display = "none";
-
-    }
-
-}
-
-function getDistance(lat1, lon1, lat2, lon2) {
-
-    const R = 6371000;
-
-    const dLat = (lat2-lat1) * Math.PI/180;
-    const dLon = (lon2-lon1) * Math.PI/180;
-
-    const a =
-        Math.sin(dLat/2) * Math.sin(dLat/2) +
-        Math.cos(lat1*Math.PI/180) *
-        Math.cos(lat2*Math.PI/180) *
-        Math.sin(dLon/2) *
-        Math.sin(dLon/2);
-
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-
-    return R * c;
 
 }

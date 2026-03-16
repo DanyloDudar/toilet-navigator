@@ -1,34 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Toilet Navigator</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-
 <body>
 
-<div class="container">
+<div id="language-screen">
 
-    <div class="progress-container">
-        <div id="progress-bar"></div>
-    </div>
+    <h2>Select Language</h2>
 
-    <div class="photo-container">
-        <img id="nav-photo">
-    </div>
+    <button onclick="chooseLanguage('en')">English</button>
+    <button onclick="chooseLanguage('cz')">Česky</button>
+    <button onclick="chooseLanguage('de')">Deutsch</button>
+    <button onclick="chooseLanguage('it')">Italiano</button>
+    <button onclick="chooseLanguage('es')">Español</button>
+    <button onclick="chooseLanguage('fr')">Français</button>
+    <button onclick="chooseLanguage('ua')">Українська</button>
 
-    <div class="info">
-        <div id="step-name">Tap START and walk outside
-            GPS needs ~5 seconds</div>
-        <div id="distance">Distance: -- m</div>
-    </div>
+</div>
 
-    <button id="startBtn">START NAVIGATION</button>
+<div id="nav-screen" style="display:none">
+
+    <div id="step-text"></div>
+
+    <img id="photo" style="display:none; width:100%; max-width:450px;">
+
+    <br><br>
+
+    <button onclick="prevStep()">← Previous</button>
+    <button onclick="nextStep()">Next →</button>
 
 </div>
 
 <script src="script.js"></script>
 
 </body>
-</html>
