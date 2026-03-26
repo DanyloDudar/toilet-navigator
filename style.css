@@ -1,61 +1,90 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #111;
-    color: white;
-    text-align: center;
     margin: 0;
     padding: 0;
+
+    background: #f4b1b1; /* light red */
+    color: #3b1f1f; /* dark brown */
+
+    font-family: 'JetBrains Mono', monospace;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 100vh;
 }
 
-h2 {
-    margin-top: 40px;
-}
-
-#language-screen {
-    padding: 20px;
-}
-
+/* containers */
+#language-screen,
 #nav-screen {
-    padding: 20px;
+    width: 95%;
+    max-width: 500px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-button {
-    display: block;
-    width: 90%;
-    max-width: 350px;
-    margin: 10px auto;
-    padding: 16px;
-    font-size: 20px;
-    border: none;
-    border-radius: 8px;
-    background: darkred;
-    color: white;
-    cursor: pointer;
-}
-
-button:hover {
-    background: crimson;
-}
-
-#step-text {
-    font-size: 24px;
-    margin-top: 30px;
-    margin-bottom: 25px;
-}
-
-#photo {
-    width: 100%;
-    max-width: 450px;
-    border-radius: 12px;
+/* title */
+h2 {
+    font-size: 34px;
     margin-bottom: 30px;
 }
 
+/* buttons */
+button {
+    width: 100%;
+    padding: 24px;
+    margin: 12px 0;
+
+    font-size: 26px;
+    font-weight: 600;
+
+    border: none;
+    border-radius: 16px;
+
+    background: #8b3a3a;
+    color: white;
+
+    cursor: pointer;
+}
+
+/* press effect */
+button:active {
+    background: #a94a4a;
+}
+
+/* step text */
+#step-text {
+    font-size: 30px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* image */
+#photo {
+    width: 100%;
+    max-width: 480px;
+
+    border-radius: 16px;
+
+    margin: 20px auto;
+
+    display: block;
+}
+
+/* nav buttons row */
 .nav-buttons {
     display: flex;
-    justify-content: center;
-    gap: 10px;
+    gap: 15px;
+    width: 100%;
 }
 
 .nav-buttons button {
-    width: 45%;
+    flex: 1;
 }

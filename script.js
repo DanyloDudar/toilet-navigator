@@ -2,51 +2,51 @@ const languages = {
 
     en: {
         start: "Go outside the cafe and click NEXT",
-        next: "Next →",
-        prev: "← Previous",
+        next: "➡️ Next",
+        prev: "⬅️ Previous",
         finish: "🎉 Congrats! Enjoy!"
     },
 
     cz: {
         start: "Vyjděte z kavárny a klikněte na DALŠÍ",
-        next: "Další →",
-        prev: "← Zpět",
-        finish: "🎉 Gratulujeme!"
+        next: "➡️ Další",
+        prev: "⬅️ Zpět",
+        finish: "🎉 Hotovo!"
     },
 
     de: {
         start: "Gehen Sie aus dem Café und klicken Sie auf WEITER",
-        next: "Weiter →",
-        prev: "← Zurück",
-        finish: "🎉 Viel Spaß!"
+        next: "➡️ Weiter",
+        prev: "⬅️ Zurück",
+        finish: "🎉 Fertig!"
     },
 
     it: {
         start: "Esci dal caffè e premi AVANTI",
-        next: "Avanti →",
-        prev: "← Indietro",
-        finish: "🎉 Buon divertimento!"
+        next: "➡️ Avanti",
+        prev: "⬅️ Indietro",
+        finish: "🎉 Fatto!"
     },
 
     es: {
         start: "Salga del café y presione SIGUIENTE",
-        next: "Siguiente →",
-        prev: "← Atrás",
-        finish: "🎉 Disfruta!"
+        next: "➡️ Siguiente",
+        prev: "⬅️ Atrás",
+        finish: "🎉 Listo!"
     },
 
     fr: {
         start: "Sortez du café et cliquez sur SUIVANT",
-        next: "Suivant →",
-        prev: "← Retour",
-        finish: "🎉 Profitez!"
+        next: "➡️ Suivant",
+        prev: "⬅️ Retour",
+        finish: "🎉 Terminé!"
     },
 
     ua: {
         start: "Вийдіть з кафе та натисніть ДАЛІ",
-        next: "Далі →",
-        prev: "← Назад",
-        finish: "🎉 Гарного дня!"
+        next: "➡️ Далі",
+        prev: "⬅️ Назад",
+        finish: "🎉 Готово!"
     }
 
 };
@@ -69,6 +69,8 @@ function chooseLanguage(lang) {
     document.getElementById("nav-screen").style.display = "block";
 
     document.getElementById("step-text").innerHTML = languages[lang].start;
+    document.getElementById("nextBtn").innerText = languages[lang].next;
+    document.getElementById("prevBtn").innerText = languages[lang].prev;
 
 }
 
