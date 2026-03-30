@@ -6,7 +6,8 @@
 html, body {
     height: 100%;
     margin: 0;
-    overflow: hidden;
+    overflow-y: auto;   /* ✅ allow vertical scroll */
+    overflow-x: hidden; /* ❌ prevent horizontal scroll */
 }
 
 /* MAIN APP WRAPPER */
@@ -25,6 +26,7 @@ body {
     color: #3b1f1f;
 
     font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
 }
 
 /* SCREENS */
@@ -43,18 +45,18 @@ body {
 
 /* TITLE */
 h2 {
-    font-size: 42px;
-    margin-bottom: 40px;
+    font-size: 32px;
+    margin-bottom: 25px;
     text-align: center;
 }
 
 /* BUTTONS (BIG AF 🔥) */
 button {
     width: 100%;
-    padding: 28px;
-    margin: 14px 0;
+    padding: 20px;
+    margin: 10px 0;
 
-    font-size: 30px;
+    font-size: 22px;
     font-weight: 600;
 
     border: none;
