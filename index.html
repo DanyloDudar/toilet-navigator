@@ -5,6 +5,9 @@
 
     <meta charset="UTF-8">
 
+    <!-- 🔥 DISABLE ZOOM -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
@@ -14,29 +17,33 @@
 
 <body>
 
-<div id="language-screen">
+<div id="app">
 
-    <h2>Select Language</h2>
+    <div id="language-screen">
 
-    <button onclick="chooseLanguage('en')">🇬🇧 English</button>
-    <button onclick="chooseLanguage('cz')">🇨🇿 Česky</button>
-    <button onclick="chooseLanguage('de')">🇩🇪 Deutsch</button>
-    <button onclick="chooseLanguage('it')">🇮🇹 Italiano</button>
-    <button onclick="chooseLanguage('es')">🇪🇸 Español</button>
-    <button onclick="chooseLanguage('fr')">🇫🇷 Français</button>
-    <button onclick="chooseLanguage('ua')">🇺🇦 Українська</button>
+        <h2>Select Language</h2>
 
-</div>
+        <button onclick="chooseLanguage('en')">🇬🇧 English</button>
+        <button onclick="chooseLanguage('cz')">🇨🇿 Česky</button>
+        <button onclick="chooseLanguage('de')">🇩🇪 Deutsch</button>
+        <button onclick="chooseLanguage('it')">🇮🇹 Italiano</button>
+        <button onclick="chooseLanguage('es')">🇪🇸 Español</button>
+        <button onclick="chooseLanguage('fr')">🇫🇷 Français</button>
+        <button onclick="chooseLanguage('ua')">🇺🇦 Українська</button>
 
-<div id="nav-screen" style="display:none">
+    </div>
 
-    <div id="step-text"></div>
+    <div id="nav-screen" style="display:none">
 
-    <img id="photo">
+        <div id="step-text"></div>
 
-    <div class="nav-buttons">
-        <button id="prevBtn" onclick="prevStep()"></button>
-        <button id="nextBtn" onclick="nextStep()"></button>
+        <img id="photo">
+
+        <div class="nav-buttons">
+            <button id="prevBtn" onclick="prevStep()"></button>
+            <button id="nextBtn" onclick="nextStep()"></button>
+        </div>
+
     </div>
 
 </div>

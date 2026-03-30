@@ -2,51 +2,63 @@
     box-sizing: border-box;
 }
 
-body {
+/* 🚫 NO SCROLL */
+html, body {
+    height: 100%;
     margin: 0;
-    padding: 0;
+    overflow: hidden;
+}
 
-    background: #f4b1b1; /* light red */
-    color: #3b1f1f; /* dark brown */
-
-    font-family: 'JetBrains Mono', monospace;
+/* MAIN APP WRAPPER */
+#app {
+    height: 100%;
+    width: 100%;
 
     display: flex;
     justify-content: center;
     align-items: center;
-
-    min-height: 100vh;
 }
 
-/* containers */
+/* BODY STYLE */
+body {
+    background: #f4b1b1;
+    color: #3b1f1f;
+
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* SCREENS */
 #language-screen,
 #nav-screen {
     width: 95%;
-    max-width: 500px;
+    max-width: 600px;
+
+    height: 100%;
 
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
 }
 
-/* title */
+/* TITLE */
 h2 {
-    font-size: 34px;
-    margin-bottom: 30px;
+    font-size: 42px;
+    margin-bottom: 40px;
+    text-align: center;
 }
 
-/* buttons */
+/* BUTTONS (BIG AF 🔥) */
 button {
     width: 100%;
-    padding: 24px;
-    margin: 12px 0;
+    padding: 28px;
+    margin: 14px 0;
 
-    font-size: 26px;
+    font-size: 30px;
     font-weight: 600;
 
     border: none;
-    border-radius: 16px;
+    border-radius: 20px;
 
     background: #8b3a3a;
     color: white;
@@ -54,31 +66,32 @@ button {
     cursor: pointer;
 }
 
-/* press effect */
+/* TOUCH FEEDBACK */
 button:active {
     background: #a94a4a;
+    transform: scale(0.97);
 }
 
-/* step text */
+/* STEP TEXT */
 #step-text {
-    font-size: 30px;
-    margin-bottom: 25px;
+    font-size: 34px;
+    margin-bottom: 30px;
     text-align: center;
 }
 
-/* image */
+/* IMAGE (FIT SCREEN 🔥) */
 #photo {
     width: 100%;
-    max-width: 480px;
+    max-height: 50vh; /* 🔥 prevents overflow */
 
-    border-radius: 16px;
+    object-fit: contain;
 
-    margin: 20px auto;
+    border-radius: 20px;
 
-    display: block;
+    margin: 20px 0;
 }
 
-/* nav buttons row */
+/* NAV BUTTONS */
 .nav-buttons {
     display: flex;
     gap: 15px;
@@ -87,4 +100,5 @@ button:active {
 
 .nav-buttons button {
     flex: 1;
+    font-size: 26px;
 }
